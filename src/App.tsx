@@ -1,49 +1,138 @@
-import React, { useRef } from "react";
-import { Container } from "@mui/material";
-import Header from "./components/Header";
-import Experience from "./components/Experience";
-import Education from "./components/Education";
-import Projects from "./components/Projects";
-import Skills from "./components/Skills";
-import TabSkip from "./components/TabSkip"
+import * as React from 'react';
+import {  Routes, Route, Link } from "react-router-dom";
+import PropTypes from 'prop-types';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import MenuIcon from '@mui/icons-material/Menu';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import TopBox from './components/TopBox';
+import TabSkip from './components/TabSkip';
+import Profile from './components/Profile';
+import Home  from './components/Home';
 
 
-function App() {
-  const resumeRef = useRef<HTMLDivElement>(null);
+const drawerWidth = 240;
+// const navItems = ['Home', 'About', 'Contact'];
 
-  const jobs = [
-    { company: "日発株式会社", period: "2025/5～現在", role: "IT案件従事", description: "Web開発・フロント実装" },
-    { company: "マヤ株式会社", period: "2023/4～2025/4", role: "IT案件従事", description: "システム開発・バックエンド担当" },
-  ];
+function App(props:any) {
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+const navItems = [
+  { text: '自己PR', path: '/' },
+  { text: '職務', path: '/about' },
+  { text: 'プロジェクト', path: '/contact' },
+  { text: '技術', path: '/profile' }
+];
 
-  const educations = [
-    { school: "東京大学", period: "2010/4～2014/3", degree: "学士（情報工学）" },
-  ];
+  const handleDrawerToggle = () => {
+    setMobileOpen((prevState) => !prevState);
+  };
 
-  const projects = [
-    { name: "モールポイントシステム", period: "2024/1～2024/12", description: "スターバックス向けのポイントシステム開発", tech: ["React", "MUI", "TypeScript", "MySQL"] },
-  ];
+  const drawer = (
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+      <Typography variant="h6" sx={{ my: 2 }}>
+        Lany
+      </Typography>
+      <Divider />
+      <List>
+        {navItems.map((item) => (
+          <ListItem key={item.text} disablePadding>
+            <ListItemButton
+              sx={{ textAlign: 'center' }}
+              component={Link}
+              to={item.path}
+            >
+              <ListItemText primary={item.text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
 
-  const skills = [
-    { name: "Java", level: 90 },
-    { name: "React", level: 95 },
-    { name: "TypeScript", level: 85 },
-    { name: "MySQL", level: 80 },
-  ];
+  const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Container maxWidth="md" ref={resumeRef} sx={{ p: 4, bgcolor: "background.paper", boxShadow: 3, borderRadius: 2 }}>
-     
-      <Header name="山田 太郎" email="taro@example.com" phone="090-1234-5678" address="東京都新宿区" />
-       <TabSkip />
-      <Experience jobs={jobs} />
-
-      <Education educations={educations} />
-      <Projects projects={projects} />
-      <Skills skills={skills} />
-
-    </Container>
+    <Box sx={{ display: 'flex' ,justifyContent: "center",backgroundColor: "#fff0f0",width: "100%"}}>
+      <CssBaseline />
+      <AppBar component="nav">
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+          >
+            LANY
+          </Typography>
+          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+            {navItems.map((item) => (
+              <Button
+                key={item.text}
+                sx={{ color: '#fff' }}
+                component={Link}
+                to={item.path}
+              >
+                {item.text}
+              </Button>
+            ))}
+          </Box>
+        </Toolbar>
+      </AppBar>
+      <nav>
+        <Drawer
+          container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            display: { xs: 'block', sm: 'none' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+          }}
+        >
+          {drawer}
+        </Drawer>
+      </nav>
+      <Box component="main" sx={{ p: 3 }}>
+        <Toolbar />
+        <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<TabSkip />} />
+            <Route path="/contact" element={<Profile />} />
+             <Route path="/profile" element={<TopBox />} />
+          </Routes>
+      </Box>
+    </Box>
   );
 }
+
+App.propTypes = {
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  window: PropTypes.func,
+};
 
 export default App;
