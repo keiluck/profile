@@ -22,7 +22,7 @@ function Home() {
       >
         {/* 第一模块：个人卡片 */}
         <Typography  variant="h4" component="div" sx={{ flexGrow: 1, my: 2,textAlign: 'center' }}>
-          プロフィール
+          自己紹介
         </Typography>
         <Card
           sx={{
@@ -50,7 +50,7 @@ function Home() {
               borderRadius: { xs: "0", sm: "12px 0 0 12px" },
               boxShadow: { xs: 0, sm: 2 },
             }}
-            image="https://mui.com/static/images/cards/contemplative-reptile.jpg"
+            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWNV0281AeqoqsvLqgMOIQ2pMKVG2kyUb6AQ&s"
             title="green iguana"
           />
 

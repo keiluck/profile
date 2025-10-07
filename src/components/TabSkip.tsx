@@ -48,10 +48,10 @@ export default function VerticalTabs() {
   return (
     <Container >
       <Typography variant="h4" component="div" sx={{ flexGrow: 1, my: 2,textAlign: 'center' }}>
-        履歴書
+        職務経歴
       </Typography>
     <Box
-      sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 500 }}
+      sx={{ flexGrow: 1, backgroundColor: "#f5f5f5", display: 'flex', height: 550 }}
     >
      
       <Tabs

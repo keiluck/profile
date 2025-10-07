@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
+import Grid from "@mui/material/Grid";
 import Paper from '@mui/material/Paper';
 
 const frontendSkills = [
@@ -52,11 +52,11 @@ export default function BasicRating() {
           letterSpacing: 2,
         }}
       >
-        技术能力评分
+        技術分野
       </Typography>
-      <Grid container spacing={3} justifyContent="center"  columns={{ xs: 2, sm: 4, md: 4 }}>
+      <Grid container spacing={3} justifyContent="center" alignItems="flex-start" columns={{ xs: 4, sm: 8, md: 12 }}>
         {allSkills.map((skill) => (
-          <Paper key={skill.name}>
+           <Grid size={{ xs: 2, sm: 4, md: 4 }} key={skill.name}>
             <Box
               sx={{
                 background: "#fff",
@@ -97,7 +97,7 @@ export default function BasicRating() {
                 {skill.group}
               </Typography>
             </Box>
-          </Paper>
+          </Grid>
           // <Container item xs={6} md={3} key={skill.name} display="flex" justifyContent="center">
            
          
@@ -107,21 +107,21 @@ export default function BasicRating() {
       <Box
         sx={{
           mt: 5,
-          p: 3,
-          background: "#e3eafc", // 纯色背景
+          p: 2,
+          background: "#e3eafc", 
           borderRadius: 3,
           boxShadow: "0 2px 8px rgba(37,99,235,0.08)",
-          textAlign: "center",
+          textAlign: "left",
         }}
       >
-        <Typography variant="h6" sx={{ mb: 2, color: "#2563eb", fontWeight: 600 }}>
-          QA 对话框
+        <Typography variant="h6" sx={{ mb: 2, color: "#2563eb", fontWeight: 600,textAlign: "center" }}>
+          QA お問い合わせ
         </Typography>
         <Typography variant="body1" sx={{ mb: 1, fontWeight: 500 }}>
-          Q: 你最擅长哪项技术？
+          Q: 最新フルスタック技術？
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          A: 我最擅长 React 和 TypeScript，熟悉前后端开发与云服务部署。
+          A: フロントエンド（ユーザーが操作する画面）とバックエンド（サーバーやデータベース処理）を統合的に開発できる最新の技術群を指します。
         </Typography>
       </Box>
     </Paper>

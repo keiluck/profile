@@ -29,10 +29,10 @@ function App(props:any) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 const navItems = [
-  { text: '自己PR', path: '/' },
-  { text: '職務', path: '/about' },
+  { text: '自己紹介', path: '/' },
+  { text: '職務経歴', path: '/about' },
   { text: 'プロジェクト', path: '/contact' },
-  { text: '技術', path: '/profile' },
+  { text: '技術分野', path: '/profile' },
 ];
 
   const handleDrawerToggle = () => {
@@ -42,7 +42,7 @@ const navItems = [
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        Lany
+        J.FL
       </Typography>
       <Divider />
       <List>
