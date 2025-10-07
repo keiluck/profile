@@ -21,6 +21,7 @@ import Profile from './components/Profile';
 import Home  from './components/Home';
 
 
+
 const drawerWidth = 240;
 // const navItems = ['Home', 'About', 'Contact'];
 
@@ -31,7 +32,7 @@ const navItems = [
   { text: '自己PR', path: '/' },
   { text: '職務', path: '/about' },
   { text: 'プロジェクト', path: '/contact' },
-  { text: '技術', path: '/profile' }
+  { text: '技術', path: '/profile' },
 ];
 
   const handleDrawerToggle = () => {
@@ -63,10 +64,29 @@ const navItems = [
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex' ,justifyContent: "center",backgroundColor: "#fff0f0",width: "100%"}}>
+    <Box sx={{ display: 'flex' ,justifyContent: "center",width: "100%"}}>
       <CssBaseline />
       <AppBar component="nav">
+
         <Toolbar>
+<Typography
+  variant="h5"
+  component="div"
+  sx={{
+    position: "absolute",
+    textAlign: "center",
+    top: 15,
+    left: "50%",
+    transform: "translateX(-50%)",
+    zIndex: 100,
+    display: {
+      xs: "block",  // 小さい画面では表示
+      md: "none",   // 中くらい以上の画面では非表示
+    },
+  }}
+>
+  プロフィール
+</Typography>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -75,6 +95,7 @@ const navItems = [
             sx={{ mr: 2, display: { sm: 'none' } }}
           >
             <MenuIcon />
+          
           </IconButton>
           <Typography
             variant="h6"
@@ -93,9 +114,11 @@ const navItems = [
               >
                 {item.text}
               </Button>
+              
             ))}
           </Box>
         </Toolbar>
+
       </AppBar>
       <nav>
         <Drawer
@@ -114,14 +137,19 @@ const navItems = [
           {drawer}
         </Drawer>
       </nav>
+
       <Box component="main" sx={{ p: 3 }}>
+
         <Toolbar />
+
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<TabSkip />} />
             <Route path="/contact" element={<Profile />} />
              <Route path="/profile" element={<TopBox />} />
+          
           </Routes>
+
       </Box>
     </Box>
   );

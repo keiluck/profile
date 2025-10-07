@@ -37,18 +37,53 @@ const steps = [
   },
 
     {
-    label: '銀行向けスマホショップとポイント交換システム',
+    label: '銀行向けスマホのポイント交換システム',
     description: `スマホショップ商品管理、ポイント交換の対応を効率化するためのシステムをゼロから開発しました。画面設計から実装までを一貫して担当し、Javascriptを用いて動的なUIを実現。レスポンシブデザインに対応し、スマートフォンからも快適に操作できるユーザー体験を提供しました。`,
   }
 ]
 
 
-
+const images = [
+  { label: '作品1', imgPath: 'https://rnb.scene7.com/is/image/roomandboard/parsons_699588_25e1?size=2400,2400&scl=1' },
+  { label: '作品2', imgPath: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC6D_5EuGol3jAYqU2myTBrzVuZQZR9SyXp9D2ELR2E7DeEyGXo9ZKAJnOjeYtKM1UjKI&usqp=CAU' },
+  { label: '作品3', imgPath: 'https://www.migefurniture.com/wp-content/uploads/2023/08/types-of-office-workstations-MeetCo.jpg' },
+  { label: '作品4', imgPath: 'https://officegroup.co.za/wp-content/uploads/2023/09/The-Role-of-Office-Desks-in-Office-Design-Employee-Engagement.jpeg' },
+  { label: '作品5', imgPath: 'https://www.top-office.cz/galerie/blog_cs/1605772408_cs_125489627_2909659779137106_6619141393785025122_o.jpg' },
+  { label: '作品6', imgPath: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRADxyqybL8diKw1v8DTHOAaVXBq3xdJvWVrltlInEc0uvfBL9jB_AxMHxVrYmmZKdSrMo&usqp=CAU' },
+];
 
 export default function TextMobileStepper() {
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
   const maxSteps = steps.length;
+
+  // 自动滑动图片索引
+  const [imgStart, setImgStart] = React.useState(0);
+
+  // 判断屏幕宽度，决定一次显示几张
+  const [showCount, setShowCount] = React.useState(window.innerWidth < 430 ? 2 : 4);
+  React.useEffect(() => {
+    function handleResize() {
+      setShowCount(window.innerWidth <= 450 ? 2 : 4);
+    }
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // 自动轮播
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setImgStart((prev) => (prev + 1) % images.length);
+    }, 2500);
+    return () => clearInterval(timer);
+  }, []);
+
+  // 计算当前显示的图片
+  const currentImages = [];
+  for (let i = 0; i < showCount; i++) {
+    currentImages.push(images[(imgStart + i) % images.length]);
+  }
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -59,11 +94,33 @@ export default function TextMobileStepper() {
   };
 
   return (
-    <Container>
-        <Typography variant="h4" component="div" sx={{ flexGrow: 1, my: 2,textAlign: 'center' }}>
+    <Container maxWidth="md" sx={{ px: { xs: 0.5, sm: 2 }, py: { xs: 2, sm: 4 } }}>
+      <Typography
+        variant="h4"
+        component="div"
+        sx={{
+          flexGrow: 1,
+          my: 2,
+          textAlign: 'center',
+          fontWeight: 700,
+          color: "#2563eb",
+          fontSize: { xs: "1.3rem", sm: "2rem" }
+        }}
+      >
         プロジェクト
       </Typography>
-      <Box sx={{ maxWidth: 600, flexGrow: 1 }}>
+      <Box
+        sx={{
+          maxWidth: { xs: "100%", sm: 800 },
+          width: "100%",
+          flexGrow: 1,
+          backgroundColor: "#fff",
+          boxShadow: 3,
+          borderRadius: 2,
+          overflow: "hidden",
+          mx: "auto",
+        }}
+      >
         <Paper
           square
           elevation={0}
@@ -73,43 +130,161 @@ export default function TextMobileStepper() {
             height: 50,
             pl: 2,
             bgcolor: 'background.default',
+          }}
+        >
+          <Typography sx={{ fontWeight: 600, color: "#2563eb", fontSize: { xs: "1rem", sm: "1.2rem" } }}>
+            {steps[activeStep].label}
+          </Typography>
+        </Paper>
+        <Box
+          sx={{
+            minHeight: 300,
+            maxWidth: 800,
+            width: '100%',
+            p: { xs: 1, sm: 2 },
+            lineHeight: 2,
+            color: "#666",
+            backgroundColor: "#f5f5f5",
+            fontSize: { xs: 14, sm: 16 },
+          }}
+        >
+          {steps[activeStep].description}
+        </Box>
+        <MobileStepper
+          variant="text"
+          steps={maxSteps}
+          position="static"
+          activeStep={activeStep}
+          sx={{
+            background: "#f4f8fd",
+            px: { xs: 1, sm: 2 },
+            py: 1,
+            borderRadius: 0,
+          }}
+          nextButton={
+            <Button
+              size="small"
+              onClick={handleNext}
+              disabled={activeStep === maxSteps - 1}
+              sx={{ color: "#2563eb", fontWeight: 600, textTransform: "none" }}
+            >
+              Next
+              {theme.direction === 'rtl' ? (
+                <KeyboardArrowLeft />
+              ) : (
+                <KeyboardArrowRight />
+              )}
+            </Button>
+          }
+          backButton={
+            <Button size="small" onClick={handleBack} disabled={activeStep === 0}
+              sx={{ color: "#2563eb", fontWeight: 600, textTransform: "none" }}>
+              {theme.direction === 'rtl' ? (
+                <KeyboardArrowRight />
+              ) : (
+                <KeyboardArrowLeft />
+              )}
+              Back
+            </Button>
+          }
+        />
+      </Box>
+
+      {/* 自动滑动图片区域 */}
+      <Box
+        sx={{
+          mt: 4,
+          width: "100%",
+          minHeight: { xs: 100, sm: 150 },
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          position: "relative",
+          bgcolor: "#f4f8fd",
+          py: { xs: 2, sm: 3 },
+          px: { xs: 0.5, sm: 3 },
+          overflow: "hidden", // 关键：防止横向滚动条
         }}
       >
-        <Typography>{steps[activeStep].label}</Typography>
-      </Paper>
-      <Box sx={{ height: 400, maxWidth: 600, width: '100%', p: 2 ,lineHeight:2.5,color:"#666",backgroundColor:"#f0f000",}}>
-        {steps[activeStep].description}
+        {/* 左箭头按钮 */}
+        <Button
+          size="small"
+          onClick={() => setImgStart((prev) => (prev - 1 + images.length) % images.length)}
+          sx={{
+            position: "absolute",
+            left: { xs: 2, sm: 16, md: 32 },
+            top: "50%",
+            transform: "translateY(-50%)",
+            minWidth: 0,
+            bgcolor: "rgba(37,99,235,0.12)",
+            color: "#2563eb",
+            borderRadius: "50%",
+            zIndex: 2,
+            boxShadow: 1,
+            p: 1,
+            '&:hover': { bgcolor: "rgba(37,99,235,0.25)" }
+          }}
+        >
+          <KeyboardArrowLeft />
+        </Button>
+
+        {/* 图片列表 */}
+        <Box sx={{
+          display: "flex",
+          gap: { xs: 1, sm: 2 },
+          width: "auto",
+          justifyContent: "center",
+          flexWrap: "nowrap",
+        }}>
+          {currentImages.map((img, idx) => (
+            <Box
+              key={img.imgPath + idx}
+              sx={{
+                width: { xs: "44vw", sm: 160, md: 180 },
+                height: { xs: "28vw", sm: 120, md: 150 },
+                maxWidth: 180,
+                maxHeight: 150,
+                borderRadius: 2,
+                overflow: "hidden",
+                boxShadow: 2,
+                bgcolor: "#fff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+              }}
+            >
+              <img
+                src={img.imgPath}
+                alt={img.label}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
+            </Box>
+          ))}
+        </Box>
+
+        {/* 右箭头按钮 */}
+        <Button
+          size="small"
+          onClick={() => setImgStart((prev) => (prev + 1) % images.length)}
+          sx={{
+            position: "absolute",
+            right: { xs: 2, sm: 16, md: 32 },
+            top: "50%",
+            transform: "translateY(-50%)",
+            minWidth: 0,
+            bgcolor: "rgba(37,99,235,0.12)",
+            color: "#2563eb",
+            borderRadius: "50%",
+            zIndex: 2,
+            boxShadow: 1,
+            p: 1,
+            '&:hover': { bgcolor: "rgba(37,99,235,0.25)" }
+          }}
+        >
+          <KeyboardArrowRight />
+        </Button>
       </Box>
-      <MobileStepper
-        variant="text"
-        steps={maxSteps}
-        position="static"
-        activeStep={activeStep}
-        nextButton={
-          <Button
-            size="small"
-            onClick={handleNext}
-            disabled={activeStep === maxSteps - 1}
-          >
-            Next
-            {theme.direction === 'rtl' ? (
-              <KeyboardArrowLeft />
-            ) : (
-              <KeyboardArrowRight />
-            )}
-          </Button>
-        }
-        backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-            {theme.direction === 'rtl' ? (
-              <KeyboardArrowRight />
-            ) : (
-              <KeyboardArrowLeft />
-            )}
-            Back
-          </Button>
-        }
-      />
-    </Box>
     </Container>
-  )}
+  );
+}
